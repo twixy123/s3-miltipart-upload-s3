@@ -14,6 +14,7 @@ router.get('/', async (ctx) => {
 
 router.get('/get-simple-upload-url', async (ctx) => {
     try {
+        console.log('ctx.query.fileName', ctx.query.fileName);
         const url = await s3Model.getSimpleUploadUrl(ctx.query.fileName)
         ctx.body = { url }
     } catch (error) {
