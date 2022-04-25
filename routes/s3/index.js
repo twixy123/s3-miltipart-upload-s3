@@ -2,6 +2,7 @@ const generateSimpleUploadUrl = require('./generateSimpleUploadUrl')
 const generateMultipartUploadId = require('./generateMultipartUploadId')
 const generateUploadPartUrl = require('./generateUploadPartUrl')
 const completeUpload = require('./completeUpload')
+const abortUpload = require('./abortUpload')
 
 module.exports = {
     getSimpleUploadUrl: async (fileName) => {
@@ -15,5 +16,8 @@ module.exports = {
     },
     completeUpload: async (body) => {
         return await completeUpload(body)
+    },
+    abortUpload: async (body) => {
+        return await abortUpload(body)
     }
 }

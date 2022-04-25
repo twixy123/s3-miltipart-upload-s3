@@ -18,17 +18,25 @@ router.get('/get-simple-upload-url', async (ctx) => {
         ctx.body = { url }
     } catch (error) {
         ctx.status = 500
-        ctx.body = { success: false }
+        ctx.body = {
+            success: false,
+            message: 'Не удалось получить ссылку.',
+            code: 1,
+        }
     }
 })
 
 router.get('/get-multipart-upload-id', async (ctx) => {
     try {
-        const multipartUploadId = await s3Model.getMultipartUploadId(ctx.query.fileName)
-        ctx.body = { multipartUploadId }
+        const uploadId = await s3Model.getMultipartUploadId(ctx.query.fileName)
+        ctx.body = { uploadId }
     } catch (error) {
         ctx.status = 500
-        ctx.body = { success: false }
+        ctx.body = {
+            success: false,
+            message: 'Не удалось получить ссылку.',
+            code: 1,
+        }
     }
 })
 
@@ -37,8 +45,13 @@ router.post('/get-upload-part-url', async (ctx) => {
         const url = await s3Model.getUploadPartUrl(ctx.request.body)
         ctx.body = { url }
     } catch (error) {
+        const partNumber = ctx.request.body?.partNumber || 0
         ctx.status = 500
-        ctx.body = { success: false }
+        ctx.body = {
+            success: false,
+            message: `Не удалось получить ссылку для ${partNumber} части файла.`,
+            code: 2
+        }
     }
 })
 
@@ -48,7 +61,25 @@ router.post('/complete-upload', async (ctx) => {
         ctx.body = { location }
     } catch (error) {
         ctx.status = 500
-        ctx.body = { success: false }
+        ctx.body = {
+            success: false,
+            message: `Не удалось загрузить файл в корзину.`,
+            code: 3
+        }
+    }
+})
+
+router.post('/abort-upload', async (ctx) => {
+    try {
+        await s3Model.abortUpload(ctx.request.body)
+        ctx.body = { success: true }
+    } catch (error) {
+        ctx.status = 500
+        ctx.body = {
+            success: false,
+            message: `Не удалось отменить загрузку файла.`,
+            code: 3
+        }
     }
 })
 
