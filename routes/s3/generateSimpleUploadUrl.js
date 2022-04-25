@@ -10,9 +10,12 @@ async function generateSimpleUploadUrl (fileName) {
         Expires: Date.now() + constants.expires
     }
 
-    const uploadUrl = await s3.getSignedUrlPromise('putObject', params)
-    console.log('uploadUrl', uploadUrl);
-    return uploadUrl
+    try {
+        const uploadUrl = await s3.getSignedUrlPromise('putObject', params)
+        return uploadUrl
+    } catch (error) {
+        console.error('generateSimpleUploadUrl', error);
+    }    
 }
 
 module.exports = generateSimpleUploadUrl
