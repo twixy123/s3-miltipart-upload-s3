@@ -10,6 +10,9 @@ async function generateSimpleUploadUrl (fileName) {
         Expires: Date.now() + constants.expires
     }
 
+    console.log('params', params);
+    console.log('baseS3InitConfig', baseS3InitConfig);
+
     const uploadUrl = await s3.getSignedUrlPromise('putObject', params)
     return uploadUrl
 }
