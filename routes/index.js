@@ -3,6 +3,15 @@ const router = new Router()
 
 const s3Model = require('./s3')
 
+router.get('/', async (ctx) => {
+    try {
+        ctx.body = 'Hello world'
+    } catch (error) {
+        ctx.status = 500
+        ctx.body = { success: false }
+    }
+})
+
 router.get('/get-simple-upload-url', async (ctx) => {
     try {
         const url = await s3Model.getSimpleUploadUrl(ctx.query.fileName)
