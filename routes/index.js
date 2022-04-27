@@ -12,7 +12,7 @@ router.get('/', async (ctx) => {
     }
 })
 
-router.get('/get-simple-upload-url', async (ctx) => {
+router.get('/s3/bucket/get-simple-upload-url', async (ctx) => {
     try {
         const url = await s3Model.getSimpleUploadUrl(ctx.query.fileName)
         ctx.body = { url }
@@ -26,7 +26,7 @@ router.get('/get-simple-upload-url', async (ctx) => {
     }
 })
 
-router.get('/get-multipart-upload-id', async (ctx) => {
+router.get('/s3/bucket/get-multipart-upload-id', async (ctx) => {
     try {
         const uploadId = await s3Model.getMultipartUploadId(ctx.query.fileName)
         ctx.body = { uploadId }
@@ -40,7 +40,7 @@ router.get('/get-multipart-upload-id', async (ctx) => {
     }
 })
 
-router.post('/get-upload-part-url', async (ctx) => {
+router.post('/s3/bucket/get-upload-part-url', async (ctx) => {
     try {
         const url = await s3Model.getUploadPartUrl(ctx.request.body)
         ctx.body = { url }
@@ -55,7 +55,7 @@ router.post('/get-upload-part-url', async (ctx) => {
     }
 })
 
-router.post('/complete-upload', async (ctx) => {
+router.post('/s3/bucket/complete-upload', async (ctx) => {
     try {
         const location = await s3Model.completeUpload(ctx.request.body)
         ctx.body = { location }
@@ -69,7 +69,7 @@ router.post('/complete-upload', async (ctx) => {
     }
 })
 
-router.post('/abort-upload', async (ctx) => {
+router.post('/s3/bucket/abort-upload', async (ctx) => {
     try {
         await s3Model.abortUpload(ctx.request.body)
         ctx.body = { success: true }
